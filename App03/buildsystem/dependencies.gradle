@@ -1,0 +1,60 @@
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+ext {
+    //Android
+    androidBuildToolsVersion = "28.0.3"
+    androidMinSdkVersion = 19
+    androidTargetSdkVersion = 28
+    androidCompileSdkVersion = 28
+
+    appCompatVersion = '27.0.2'
+    rxJavaVersion = '2.0.2'
+    okhttp3Version = '3.13.1'
+    daggerVersion = '2.10'
+    rxJavaVersion = '2.0.2'
+    rxAndroidVersion = '2.0.1'
+    javaxAnnotationVersion = '1.0'
+    javaxInjectVersion = '1'
+    androidAnnotationsVersion = '22.2.0'
+    chuckVersion = '1.1.0'
+    jacksonVersion = '2.0.1'
+    butterKnifeVersion = '8.8.1'
+
+
+    presentationDependencies = [
+            daggerCompiler: "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger        : "com.google.dagger:dagger:${daggerVersion}",
+            appCompat     : "com.android.support:appcompat-v7:${appCompatVersion}",
+            rxJava        : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxAndroid     : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            recyclerView  : "com.android.support:recyclerview-v7:${appCompatVersion}",
+            butterKnife   : "com.jakewharton:butterknife:${butterKnifeVersion}",
+            butterKnifeCompiler   : "com.jakewharton:butterknife-compiler:${butterKnifeVersion}"
+    ]
+
+    domainDependencies = [
+            javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}",
+            rxJava         : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+    ]
+
+    dataDependencies = [
+            okHttp            : "com.squareup.okhttp3:okhttp:${okhttp3Version}",
+            jackson           : "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}",
+            daggerCompiler    : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger            : "com.google.dagger:dagger:${daggerVersion}",
+            rxJava            : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxAndroid         : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            javaxAnnotation   : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject       : "javax.inject:javax.inject:${javaxInjectVersion}",
+            androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}",
+            chuckLogger       : "com.readystatesoftware.chuck:library:${chuckVersion}",
+            chuckLoggerNoOp   : "com.readystatesoftware.chuck:library-no-op:${chuckVersion}"
+    ]
+
+}

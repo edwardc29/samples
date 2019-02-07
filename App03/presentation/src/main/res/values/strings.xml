@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">CleanArchitectureApp</string>
+    <string name="exception_message_generic">Error general</string>
+    <string name="exception_message_no_connection">Sin conexión a internet</string>
+</resources>

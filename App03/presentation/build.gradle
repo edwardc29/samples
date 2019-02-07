@@ -1,0 +1,95 @@
+apply plugin: 'com.android.application'
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+
+    defaultConfig {
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+
+        applicationId globalConfiguration["androidApplicationId"]
+        versionCode globalConfiguration["androidVersionCode"]
+
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            debuggable false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            debuggable true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "tier"
+
+    productFlavors {
+
+        dev {
+            dimension "tier"
+            applicationIdSuffix ".dev"
+            versionName globalConfiguration["androidDevVersionName"]
+            manifestPlaceholders = [app_name: "MyApp", flavor_suffix: "-DEV", active_cleartextTraffic: true]
+        }
+
+        qa {
+            dimension "tier"
+            applicationIdSuffix ".qa"
+            versionName globalConfiguration["androidQAVersionName"]
+            manifestPlaceholders = [app_name: "MyApp", flavor_suffix: "-QA", active_cleartextTraffic: false]
+        }
+
+        prd {
+            dimension "tier"
+            versionName globalConfiguration["androidPrdVersionName"]
+            manifestPlaceholders = [app_name: "MyApp", flavor_suffix: "", active_cleartextTraffic: false]
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+configurations {
+    devDebugImplementation
+    devReleaseImplementation
+    qaDebugImplementation
+    qaReleaseImplementation
+    prdDebugImplementation
+    prdReleaseImplementation
+}
+
+dependencies {
+    def presentationDependencies = rootProject.ext.presentationDependencies
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(':domain')
+    implementation project(':data')
+
+    implementation presentationDependencies.appCompat
+    implementation presentationDependencies.recyclerView
+    annotationProcessor presentationDependencies.daggerCompiler
+    implementation presentationDependencies.dagger
+    implementation presentationDependencies.rxJava
+    implementation presentationDependencies.rxAndroid
+    implementation presentationDependencies.butterKnife
+    annotationProcessor presentationDependencies.butterKnifeCompiler
+
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}

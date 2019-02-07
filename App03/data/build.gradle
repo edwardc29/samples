@@ -1,0 +1,86 @@
+apply plugin: 'com.android.library'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+
+
+
+    defaultConfig {
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+        versionCode globalConfiguration["androidVersionCode"]
+
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            debuggable true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        buildTypes.each {
+            it.buildConfigField 'String', 'API_KEY', '"d3e3265328a4a2624a2a21da971f50a2"'
+
+            it.buildConfigField 'String', 'MOVIES', '"/movie/popular"'
+        }
+    }
+
+    flavorDimensions "tier"
+
+    productFlavors {
+        dev {
+            dimension "tier"
+            versionName globalConfiguration["androidDevVersionName"]
+            buildConfigField 'String', 'BASE_URL', '"https://api.themoviedb.org/3"'
+        }
+
+        qa {
+            dimension "tier"
+            versionName globalConfiguration["androidQAVersionName"]
+            buildConfigField 'String', 'BASE_URL', '"https://qa.com/"'
+        }
+
+        prd {
+            dimension "tier"
+            versionName globalConfiguration["androidPrdVersionName"]
+            buildConfigField 'String', 'BASE_URL', '"https://prd.com/"'
+        }
+    }
+
+}
+
+dependencies {
+    def dataDependencies = rootProject.ext.dataDependencies
+
+    implementation project(':domain')
+
+    implementation dataDependencies.okHttp
+    implementation dataDependencies.jackson
+    compileOnly dataDependencies.javaxAnnotation
+    implementation dataDependencies.javaxInject
+    implementation dataDependencies.rxJava
+    implementation dataDependencies.rxAndroid
+    implementation dataDependencies.androidAnnotations
+    debugImplementation dataDependencies.chuckLogger
+    releaseImplementation dataDependencies.chuckLoggerNoOp
+}

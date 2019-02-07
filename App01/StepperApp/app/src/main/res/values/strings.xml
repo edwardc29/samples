@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">StepperApp</string>
+
+    <string name="stepper_header">Step %1$d of %2$d</string>
+    <string name="back">Back</string>
+    <string name="next">Next</string>
+</resources>
